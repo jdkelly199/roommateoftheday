@@ -16,6 +16,15 @@ function App() {
   const [login, setLogin] = useState(false);
   const [storeVote, setStoreVote] = useState('JD');
 
+  socket.on('disconnect', () => {
+    setLogin(false);
+  });
+
+  function handleSubmit(event) {
+    event.preventDefault();
+    socket.emit('login', name)
+  }
+
   socket.on('loginSuccess', (msg) => {
     setLogin(true);
     setVoteData(msg);
@@ -36,11 +45,6 @@ function App() {
 
   function startVote() {
     socket.emit('startVotePress', {})
-  }
-
-  function handleSubmit(event) {
-    event.preventDefault();
-    socket.emit('login', name)
   }
 
   function handleVote(voteAnswer) {
